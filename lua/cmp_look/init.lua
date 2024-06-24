@@ -2,7 +2,6 @@ local cmp = require('cmp')
 local luv = require('luv')
 local debug = require('cmp.utils.debug')
 local config = require('cmp.config')
-local utf8 = require('lua-utf8')
 local M = {}
 
 M.new = function()
