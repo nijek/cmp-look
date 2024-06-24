@@ -11,16 +11,16 @@ M.new = function()
 end
 
 local trim = function(str)
-  return string.gsub(str, '^%s*(.-)%s*$', '%1')
+  return utf8.gsub(str, '^%s*(.-)%s*$', '%1')
 end
 
 local line = function(str)
-  local s, e, cap = string.find(str, '\n')
+  local s, e, cap = utf8.find(str, '\n')
   if not s then
     return nil, str
   end
-  local l = string.sub(str, 1, s - 1)
-  local rest = string.sub(str, e + 1)
+  local l = utf8.sub(str, 1, s - 1)
+  local rest = utf8.sub(str, e + 1)
   return l, rest
 end
 
@@ -66,7 +66,7 @@ do
       ret = ret .. f(s.v, target)
       i = i + s.n
     end
-    ret = ret .. string.sub(word, i)
+    ret = ret .. utf8.sub(word, i)
     return ret;
   end
 
@@ -138,8 +138,8 @@ local function construct_args(q, option, len)
     end
   end
   if dflag then
-    local alph = string.gsub(q, '%W', '')
-    if string.len(alph) < len then
+    local alph = utf8.gsub(q, '%W', '')
+    if utf8.len(alph) < len then
       return nil
     end
   end
@@ -155,7 +155,7 @@ local function get_keyword_length(request)
 end
 
 M.complete = function(self, request, callback)
-  local q = string.sub(request.context.cursor_before_line, request.offset)
+  local q = utf8.sub(request.context.cursor_before_line, request.offset)
   local args = construct_args(q, request.option, get_keyword_length(request))
   if not args then
     callback({})
@@ -184,7 +184,7 @@ M.complete = function(self, request, callback)
       callback(result(xs))
     end)
     if handle == nil then
-      debug.log(string.format("start `%s` failed: %s", cmd, pid))
+      debug.log(utf8.format("start `%s` failed: %s", cmd, pid))
     end
     luv.read_start(stdioe[2], function(err, chunk)
       assert(not err, err)
@@ -207,3 +207,4 @@ M.complete = function(self, request, callback)
 end
 
 return M
+
